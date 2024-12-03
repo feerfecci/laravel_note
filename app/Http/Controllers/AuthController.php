@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Container\Attributes\DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB as FacadesDB;
@@ -31,15 +32,23 @@ class AuthController extends Controller
         $username = $request->input('text_username');
         $password = $request->input('text_password');
 
-        //test db
-        try {
-            FacadesDB::connection()->getPdo();
-            echo 'Connection is OK';
-        } catch (\PDOException $e) {
-            echo 'Connection faild' . $e->getMessage();
-        }
+        // //test db
+        // try {
+        //     FacadesDB::connection()->getPdo();
+        //     echo 'Connection is OK';
+        // } catch (\PDOException $e) {
+        //     echo 'Connection faild' . $e->getMessage();
+        // }
 
-        echo 'Fim';
+        // echo 'Fim';
+
+        //get all users db
+        // $users = User::all()->toArray();
+        $userModel = new User();
+        $users = $userModel->all()->toArray();
+
+        echo '<pre>';
+        print_r( $users);
     }
 
     public function logout()
