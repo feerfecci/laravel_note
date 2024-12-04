@@ -39,20 +39,47 @@ class AuthController extends Controller
         // } catch (\PDOException $e) {
         //     echo 'Connection faild' . $e->getMessage();
         // }
-
         // echo 'Fim';
 
         //get all users db
+        ///isso///
         // $users = User::all()->toArray();
-        $userModel = new User();
-        $users = $userModel->all()->toArray();
+        ///é igual a///
+        // $userModel = new User();
+        // $users = $userModel->all()->toArray();
+        // echo '<pre>';
+        // print_r( $users);
 
-        echo '<pre>';
-        print_r( $users);
+        $user = User::where('username', $username)->where('deleted_at', NULL)->first();
+        if (!$user) {
+            //redirect para pagina de tras -> com os inputs old -> com um erro e mensagem
+            return redirect()->back()->withInput()->with('loginError', "username ou password incorreto");
+        }
+
+        if(!password_verify($password, $user->password)){
+            //redirect para pagina de tras -> com os inputs old -> com um erro e mensagem
+            return redirect()->back()->withInput()->with('loginError', "username ou password incorreto");
+
+        }
+
+        //update lastlogin
+        $user->last_login = date('Y-m-d H:i:s');
+        $user->save();
+
+        //login user
+        session([
+            'user' => [
+                'id' => $user->id,
+                'username' => $user->username,
+            ]
+            ]);
+
+        echo 'login com sucesso';
     }
 
     public function logout()
     {
-        echo 'logout';
+        session()->forget("user");
+        return redirect()->to('/login');
     }
 }
