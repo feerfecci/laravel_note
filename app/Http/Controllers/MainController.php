@@ -52,6 +52,9 @@ class MainController extends Controller
     public function editNote($id)
     {
         $id = Operations::decrypt($id);
+        if ($id == null) {
+            return redirect()->route('home');
+        }
 
         $note = Note::find($id);
         return view('edit_note', ['note' => $note]);
@@ -77,6 +80,9 @@ class MainController extends Controller
         }
 
         $id = Operations::decrypt($request->note_id);
+        if ($id == null) {
+            return redirect()->route('home');
+        }
 
         $note = Note::find($id);
         // dd($request->note_id);
@@ -91,6 +97,9 @@ class MainController extends Controller
     public function deleteNote($id)
     {
         $id = Operations::decrypt($id);
+        if ($id == null) {
+            return redirect()->route('home');
+        }
 
         $note = Note::find($id);
 
@@ -100,20 +109,23 @@ class MainController extends Controller
     public function deleteConfirm($id)
     {
         $id = Operations::decrypt($id);
+        if ($id == null) {
+            return redirect()->route('home');
+        }
         $note = Note::find($id);
 
         //deletar direto
         // $note->delete();
-        
+
         //softdelet
         // $note->deleted_at = date('Y/m/d H:i:s');
         // $note->save();
-        
+
         //usando o Use SoftDelete no Model:
         $note->delete();
         //usando o Use SoftDelete no Model porém deletando do BD:
         $note->forceDelete();
-        
+
         return  redirect()->route('home');
     }
 }

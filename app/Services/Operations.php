@@ -10,7 +10,7 @@ class Operations{
         try {
             $value = Crypt::decrypt($value);
         } catch (DecryptException $de) {
-            return redirect()->route('home');
+            return null;
         }
 
         return $value;
