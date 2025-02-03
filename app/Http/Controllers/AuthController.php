@@ -50,7 +50,9 @@ class AuthController extends Controller
         // echo '<pre>';
         // print_r( $users);
 
+        
         $user = User::where('username', $username)->where('deleted_at', NULL)->first();
+        // dd($user);
         if (!$user) {
             //redirect para pagina de tras -> com os inputs old -> com um erro e mensagem
             return redirect()->back()->withInput()->with('loginError', "username ou password incorreto");

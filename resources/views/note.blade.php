@@ -6,6 +6,9 @@
                     <h4 class="text-info">{{ $note['title'] }}</h4>
                     <small class="text-secondary"><span class="opacity-75 me-2">Created
                             at:</span><strong>{{ date('d-m-Y H:i:s')}}</strong></small>
+                            @if ($note['created_at'] != $note['updated_at'])
+                            <small class="text-secondary"><span class="opacity-75 me-2">Updated at:</span><strong>{{ date('d-m-Y H:i:s')}}</strong></small>
+                            @endif
                 </div>
                 <div class="col text-end">
                     <a href="{{ route('edit', ['id'=> Crypt::encrypt($note['id']) ]) }}" class="btn btn-outline-secondary btn-sm mx-1"><i
